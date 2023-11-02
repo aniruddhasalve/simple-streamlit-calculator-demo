@@ -1,21 +1,48 @@
 import streamlit as st
+import numpy as np
 
-st.title("Simple Calculator")
+# Define the calculator function
+def calculate(a, b, op):
+    if op == "+":
+        return a + b
+    elif op == "-":
+        return a - b
+    elif op == "*":
+        return a * b
+    elif op == "/":
+        if b == 0:
+            raise ZeroDivisionError("Cannot divide by zero")
+        return a / b
+    else:
+        raise ValueError("Invalid operator")
 
-def calculate(num1, num2, operation):
-    """Performs a mathematical operation on two numbers."""
-    if operation == "+":
-        return num1 + num2
-    elif operation == "-":
-        return num1 - num2
-    elif operation == "*":
-        return num1 * num2
-    elif operation == "/":
-        return num1 / num2
+# Define the Streamlit app
+st.title("Calculator")
 
-num1 = st.number_input("Enter first number:")
-num2 = st.number_input("Enter second number:")
-operation = st.selectbox("Choose operation:", ["+", "-", "*", "/"])
+# Get user input
+a = st.number_input("First number")
+b = st.number_input("Second number")
+op = st.selectbox("Operator", ["+", "-", "*", "/"])
 
-result = calculate(num1, num2, operation)
-st.success(f"The result is: {result}")
+# Calculate the result
+try:
+    result = calculate(a, b, op)
+except ZeroDivisionError as e:
+    st.error(e)
+else:
+    st.write("Result:", result)
+
+# Add more operations
+st.markdown("Additional operations:")
+
+# Square root
+sqrt = np.sqrt(a)
+st.write("Square root of {}: {}".format(a, sqrt))
+
+# Logarithm
+log = np.log(a)
+st.write("Logarithm of {}: {}".format(a, log))
+
+# Exponential
+exp = np.exp(a)
+st.write("Exponential of {}: {}".format(a, exp))
